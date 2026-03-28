@@ -24,6 +24,33 @@ export default function Home() {
           </p>
         </div>
 
+        {/* Selected Work */}
+      <div className="pt-8">
+        <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">
+          Selected Work
+        </h2>
+
+        <div className="space-y-4">
+          <div>
+            <p className="text-white font-medium">
+              Project One
+            </p>
+            <p className="text-gray-400 text-sm">
+              A Python-based project focused on solving practical problems. (Details coming soon)
+            </p>
+          </div>
+
+          <div>
+            <p className="text-white font-medium">
+              Project Two
+            </p>
+            <p className="text-gray-400 text-sm">
+              A web-based project built with modern JavaScript tools. (Details coming soon)
+            </p>
+          </div>
+        </div>
+      </div>
+
         {/* Navigation */}
         <div className="flex gap-6 pt-4">
           <a
