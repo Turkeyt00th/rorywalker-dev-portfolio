@@ -51,28 +51,6 @@ export default function Home() {
         </div>
       </div>
 
-        {/* Navigation */}
-        <div className="flex gap-6 pt-4">
-          <a
-            href="/projects"
-            className="text-white hover:text-gray-400 transition"
-          >
-            Projects
-          </a>
-          <a
-            href="/about"
-            className="text-white hover:text-gray-400 transition"
-          >
-            About
-          </a>
-          <a
-            href="/contact"
-            className="text-white hover:text-gray-400 transition"
-          >
-            Contact
-          </a>
-        </div>
-
         {/* Contact */}
         <div className="pt-10 border-t border-gray-800">
           <p className="text-gray-400 text-sm">
