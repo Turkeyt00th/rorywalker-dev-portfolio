@@ -1,3 +1,5 @@
+import { projects } from "@/lib/projects";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white px-6 py-16">
@@ -31,23 +33,12 @@ export default function Home() {
         </h2>
 
         <div className="space-y-4">
-          <div>
-            <p className="text-white font-medium">
-              Project One
-            </p>
-            <p className="text-gray-400 text-sm">
-              A Python-based project focused on solving practical problems. (Details coming soon)
-            </p>
-          </div>
-
-          <div>
-            <p className="text-white font-medium">
-              Project Two
-            </p>
-            <p className="text-gray-400 text-sm">
-              A web-based project built with modern JavaScript tools. (Details coming soon)
-            </p>
-          </div>
+          {projects.map((project) => (
+            <div key={project.name}>
+              <p className="text-white font-medium">{project.name}</p>
+              <p className="text-gray-400 text-sm">{project.description}</p>
+            </div>
+          ))}
         </div>
       </div>
 
