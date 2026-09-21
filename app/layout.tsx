@@ -1,25 +1,56 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
+import type { Metadata, Viewport } from "next";
+import { Familjen_Grotesk, IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SiteNav } from "@/components/site-nav";
+import { SiteFooter } from "@/components/site-footer";
+import { site } from "@/lib/site";
 import "./globals.css";
-import { SpeedInsights } from "@vercel/speed-insights/next"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const familjen = Familjen_Grotesk({
+  variable: "--font-familjen",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const instrument = Instrument_Sans({
+  variable: "--font-instrument",
   subsets: ["latin"],
+});
+
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
-  title: "Rory Walker | Junior Developer",
-  description:
-    "Rory Walker, a junior developer learning Python and building practical web applications.",
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.name} · ${site.role}`,
+    template: `%s · ${site.name}`,
+  },
+  description: site.description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: site.url,
+    siteName: site.name,
+    title: `${site.name} · ${site.role}`,
+    description: site.description,
+    locale: "en_GB",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} · ${site.role}`,
+    description: site.description,
+  },
+  robots: { index: true, follow: true },
 };
-  
+
+export const viewport: Viewport = {
+  themeColor: "#e8e9e4",
+  colorScheme: "light",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,27 +58,19 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="en-GB"
+      className={`${familjen.variable} ${instrument.variable} ${plexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-black text-white">
-        <nav className="px-6 pt-8">
-          <div className="max-w-3xl mx-auto flex gap-6 text-sm">
-            <Link href="/" className="hover:text-gray-400 transition">
-              Home
-            </Link>
-            <Link href="/projects" className="hover:text-gray-400 transition">
-              Projects
-            </Link>
-            <Link href="/about" className="hover:text-gray-400 transition">
-              About
-            </Link>
-            <Link href="/contact" className="hover:text-gray-400 transition">
-              Contact
-            </Link>
-          </div>
-        </nav>
+      <body className="min-h-full flex flex-col">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-10 focus:bg-card focus:px-4 focus:py-2 focus:text-ink"
+        >
+          Skip to content
+        </a>
+        <SiteNav />
         {children}
+        <SiteFooter />
         <SpeedInsights />
       </body>
     </html>

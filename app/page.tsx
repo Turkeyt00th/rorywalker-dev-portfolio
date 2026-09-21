@@ -1,60 +1,85 @@
-import { projects } from "@/lib/projects";
+import Link from "next/link";
+import { ShippingRecord } from "@/components/shipping-record";
+import { projects, type Project } from "@/lib/projects";
+import { site } from "@/lib/site";
+
+/** The full stack runs to 15 items for MyGarden. Cards get the headline few. */
+function shortStack(project: Project) {
+  return project.stack.flatMap((group) => group.items.slice(0, 2)).slice(0, 5);
+}
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-white px-6 py-16">
-      <div className="max-w-3xl mx-auto space-y-10">
-        
-        {/* Name */}
-        <h1 className="text-4xl font-semibold tracking-tight">
-          Rory Walker
-        </h1>
+    <main id="main" className="px-6">
+      <div className="mx-auto max-w-5xl">
+        <section className="pt-16 pb-12 md:pt-20 md:pb-14">
+          <h1 className="display text-5xl md:text-6xl text-ink">{site.name}</h1>
 
-        {/* Intro */}
-        <p className="text-lg text-gray-300 leading-relaxed">
-          I’m a junior developer focused on building practical, real-world applications.
-          Currently developing my skills in modern web development and software engineering.
-        </p>
-
-        {/* What I'm learning */}
-        <div>
-          <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-2">
-            Currently Learning
-          </h2>
-          <p className="text-gray-300">
-            Python, with a focus on writing clean, functional code and solving real problems.
+          <p className="measure mt-6 text-xl text-muted leading-relaxed">
+            I work mostly in TypeScript. On MyGarden that meant the React Native
+            app, the Postgres schema under it, ten Deno functions and the App
+            Store paperwork. Nobody else is on it, so anything that breaks is
+            mine.
           </p>
+        </section>
+
+        <div className="pb-16">
+          <ShippingRecord />
         </div>
 
-        {/* Selected Work */}
-      <div className="pt-8">
-        <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">
-          Selected Work
-        </h2>
+        <section className="border-t border-rule py-16" aria-labelledby="work">
+          <div className="flex items-baseline gap-4">
+            <h2 id="work" className="eyebrow">
+              Selected work
+            </h2>
+            <span className="h-px flex-1 bg-rule" aria-hidden="true" />
+          </div>
 
-        <div className="space-y-4">
-          {projects.map((project) => (
-            <div key={project.name}>
-              <p className="text-white font-medium">{project.name}</p>
-              <p className="text-gray-400 text-sm">{project.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+          <ul className="mt-8">
+            {projects.map((project) => (
+              <li key={project.slug}>
+                <Link
+                  href={`/work/${project.slug}`}
+                  className="group block py-5 md:grid md:grid-cols-[14rem_1fr] md:gap-8 border-b border-rule/60"
+                >
+                  <div>
+                    <h3 className="display text-lg text-ink group-hover:text-signal transition-colors">
+                      {project.name}
+                    </h3>
+                    <p className="tabular mt-1 text-xs text-faint">
+                      {project.status} · {project.period}
+                    </p>
+                  </div>
 
-        {/* Contact */}
-        <div className="pt-10 border-t border-gray-800">
-          <p className="text-gray-400 text-sm">
-            Get in touch:
+                  <div className="mt-2 md:mt-0">
+                    <p className="measure text-muted leading-relaxed">
+                      {project.tagline}
+                    </p>
+                    <p className="tabular mt-2 text-xs text-faint">
+                      {shortStack(project).join("  ·  ")}
+                    </p>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="border-t border-rule py-16" aria-labelledby="hire">
+          <h2 id="hire" className="eyebrow">
+            Get in touch
+          </h2>
+          <p className="measure mt-4 text-lg text-muted leading-relaxed">
+            I&rsquo;m looking for a development role. Email is the best way to
+            get hold of me.
           </p>
           <a
-            href="mailto:hello@rorywalker.dev"
-            className="text-white hover:text-gray-400 transition"
+            href={`mailto:${site.email}`}
+            className="display mt-4 inline-block text-2xl text-ink hover:text-signal transition-colors"
           >
-            hello@rorywalker.dev
+            {site.email}
           </a>
-        </div>
-
+        </section>
       </div>
     </main>
   );

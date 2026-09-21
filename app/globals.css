@@ -1,26 +1,93 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* "Ship log": pressed greige paper, warm ink, one signal colour.
+     Every pairing below clears WCAG AA against both paper and card. */
+  --color-paper: #e8e9e4;
+  --color-card: #f4f4f1;
+  --color-rule: #d2d2ca;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-ink: #1a1a17;
+  --color-muted: #55554e;
+  --color-faint: #67675f;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Used only for status, links and ledger markers. Nothing decorative. */
+  --color-signal: #1f4d3d;
+
+  --font-display: var(--font-familjen), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display face wants tighter tracking at large sizes; the body face doesn't. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* The utility face: versions, dates, eyebrows, counts. Anything the ship log
+   would have printed in a fixed column. */
+.tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-faint);
+}
+
+/* Prose columns cap at a readable measure regardless of container width. */
+.measure {
+  max-width: 64ch;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: var(--color-card);
+}
+
+/* Entries settle in on load, once, in sequence. Never on scroll-jacking. */
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.settle {
+  animation: settle 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
