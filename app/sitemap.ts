@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { projects } from "@/lib/projects";
+import { mygardenLegal } from "@/lib/mygarden-legal";
 import { site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -32,5 +33,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.5,
     },
+    ...[mygardenLegal.privacyPath, mygardenLegal.termsPath].map((path) => ({
+      url: `${site.url}${path}`,
+      lastModified,
+      changeFrequency: "yearly" as const,
+      priority: 0.3,
+    })),
   ];
 }
